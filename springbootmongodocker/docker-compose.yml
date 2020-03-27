@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mongo-docker-container:
+    image: mongo:3.2.4
+    ports:
+    - 27017:27017
+    command: --smallfiles
+    
+# APP  ***************************************************************************************
+  spring-boot-mongo-app:
+    image: companyrestapiapplicationmongo-docker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+    - 8085:8085
+    links:
+    - mongo-docker-container
+    entrypoint: "java -Djava.security.egd=file:/dev/./urandom -jar /app.jar"
+    
+    
+
